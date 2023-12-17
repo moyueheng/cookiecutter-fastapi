@@ -12,5 +12,5 @@ services:
       - .env
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8080
     volumes:
-      - ./app:/app/
-      - ./ml/model/:/app/ml/model/
+      - ./app:/ctbu/{{cookiecutter.project_slug}}/app/
+      - ./ml/model/:/ctbu/{{cookiecutter.project_slug}}/ml/model/

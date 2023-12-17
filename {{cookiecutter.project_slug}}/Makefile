@@ -7,8 +7,8 @@ ifeq ($(TIMEOUT),)
 TIMEOUT := 60
 endif
 
-ifeq ($(MODEL_PATH),)
-MODEL_PATH := {{cookiecutter.machine_learn_model_path}}
+ifeq ($(MODEL_DIR),)
+MODEL_DIR := {{cookiecutter.machine_learn_model_dir}}
 endif
 
 ifeq ($(MODEL_NAME),)

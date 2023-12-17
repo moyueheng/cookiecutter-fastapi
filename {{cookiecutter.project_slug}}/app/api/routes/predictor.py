@@ -2,6 +2,7 @@ import json
 
 import joblib
 from fastapi import APIRouter, HTTPException
+from loguru import logger
 
 from core.config import INPUT_EXAMPLE
 from services.predict import MachineLearningModelHandlerScore as model
@@ -55,4 +56,5 @@ async def health():
         is_health = True
         return HealthResponse(status=is_health)
     except Exception:
+        logger.exception("Health check failed") # 出错了要记得在这里打印出来
         raise HTTPException(status_code=404, detail="Unhealthy")

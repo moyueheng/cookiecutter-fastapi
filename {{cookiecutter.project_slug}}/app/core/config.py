@@ -1,13 +1,16 @@
-import sys
 import logging
+import sys
+from os.path import abspath, dirname
+from os.path import join as pjoin
 
+from core.logging import InterceptHandler
 from loguru import logger
 from starlette.config import Config
 from starlette.datastructures import Secret
 
-from core.logging import InterceptHandler
+ROOT_DIR = dirname(dirname(dirname(abspath(__file__))))
 
-config = Config(".env")
+config = Config(pjoin(ROOT_DIR, ".env"))
 
 API_PREFIX = "/api"
 VERSION = "{{cookiecutter.version}}"
@@ -20,11 +23,23 @@ PROJECT_NAME: str = config("PROJECT_NAME", default="{{cookiecutter.project_name}
 
 # logging configuration
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
+# 让logging的日志也是走loguru
 logging.basicConfig(
     handlers=[InterceptHandler(level=LOGGING_LEVEL)], level=LOGGING_LEVEL
 )
-logger.configure(handlers=[{"sink": sys.stderr, "level": LOGGING_LEVEL}])
+logger.configure(
+    handlers=[
+        {"sink": sys.stderr, "level": LOGGING_LEVEL},
+        {"sink": pjoin(ROOT_DIR, "app/logs/err.log"), "level": logging.ERROR}, # 只保存error级别以上的日志
+    ]
+)
 
-MODEL_PATH = config("MODEL_PATH", default="{{cookiecutter.machine_learn_model_path}}")
+
+MODEL_DIR = pjoin(
+    ROOT_DIR, config("MODEL_DIR", default="{{cookiecutter.machine_learn_model_dir}}")
+)
+
 MODEL_NAME = config("MODEL_NAME", default="{{cookiecutter.machine_learn_model_name}}")
-INPUT_EXAMPLE = config("INPUT_EXAMPLE", default="{{cookiecutter.input_example_path}}")
+INPUT_EXAMPLE = pjoin(
+    ROOT_DIR, config("INPUT_EXAMPLE", default="{{cookiecutter.input_example_path}}")
+)

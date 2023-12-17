@@ -1,131 +1,93 @@
+
 # {{cookiecutter.project_name}}
 
 {{cookiecutter.project_short_description}}
 
-## Development Requirements
+## 开发需求
 
-- Python3.11.0
+- Python 3.11.0
 - Pip
-- Poetry (Python Package Manager)
+- conda (python 版本管理器)
+- Poetry（Python 包管理器）
 
-### M.L Model Environment
+### 机器学习模型环境
 
 ```sh
-MODEL_PATH=./ml/model/
+MODEL_DIR=./ml/model/
 MODEL_NAME=model.pkl
 ```
 
-### Update `/predict`
+### 更新 `/predict`
 
-To update your machine learning model, add your `load` and `method` [change here](app/api/routes/predictor.py#L19) at `predictor.py`
+要更新你的机器学习模型，请在 `predictor.py` 中[在此修改](app/api/routes/predictor.py#L19)你的 `load` 和 `method`
 
-## Installation
+## 安装
 
 ```sh
-python -m venv venv
-source venv/bin/activate
+conda create -n {{cookiecutter.project_name}} python=3.11
+conda activate {{cookiecutter.project_name}}
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+pip install poetry
+poetry config virtualenvs.create false 
 make install
 ```
 
-## Runnning Localhost
+## 本地运行
 
 `make run`
 
-## Deploy app
+## 部署应用
 
 `make deploy`
 
-## Running Tests
+## 运行测试
 
 `make test`
 
-## Access Swagger Documentation
+## 访问 Swagger 文档
 
-> <http://localhost:8080/docs>
+> [http://localhost:8080/docs](http://localhost:8080/docs)
 
-## Access Redocs Documentation
+## 访问 Redocs 文档
 
-> <http://localhost:8080/redoc>
+> [http://localhost:8080/redoc](http://localhost:8080/redoc)
 
-## Project structure
+## 项目结构
 
-Files related to application are in the `app` or `tests` directories.
-Application parts are:
+与应用程序相关的文件位于 `app` 或 `tests` 目录。
+应用程序部分包括：
 
     app
     |
-    | # Fast-API stuff
-    ├── api                 - web related stuff.
-    │   └── routes          - web routes.
-    ├── core                - application configuration, startup events, logging.
-    ├── models              - pydantic models for this application.
-    ├── services            - logic that is not just crud related.
-    ├── main-aws-lambda.py  - [Optional] FastAPI application for AWS Lambda creation and configuration.
-    └── main.py             - FastAPI application creation and configuration.
+    | # FastAPI 相关内容
+    ├── api                 - 网络相关内容。
+    │   └── routes          - 网络路由。
+    ├── core                - 应用配置、启动事件、日志记录。
+    ├── models              - 本应用的 pydantic 模型。
+    ├── services            - 不仅仅是 CRUD 相关的逻辑。
+    ├── main-aws-lambda.py  - [可选] AWS Lambda 创建和配置的 FastAPI 应用。
+    └── main.py             - FastAPI 应用创建和配置。
     |
-    | # ML stuff
-    ├── data             - where you persist data locally
-    │   ├── interim      - intermediate data that has been transformed.
-    │   ├── processed    - the final, canonical data sets for modeling.
-    │   └── raw          - the original, immutable data dump.
+    | # 机器学习相关内容
+    ├── data             - 本地持久化数据的位置
+    │   ├── interim      - 已转换的中间数据。
+    │   ├── processed    - 模型最终的、规范的数据集。
+    │   └── raw          - 原始的、不可变的数据转储。
     │
-    ├── notebooks        - Jupyter notebooks. Naming convention is a number (for ordering),
+    ├── notebooks        - Jupyter 笔记本。命名约定是一个数字（用于排序），
     |
-    ├── ml               - modelling source code for use in this project.
-    │   ├── __init__.py  - makes ml a Python module
-    │   ├── pipeline.py  - scripts to orchestrate the whole pipeline
+    ├── ml               - 本项目使用的建模源代码。
+    │   ├──__init__.py  - 使 ml 成为一个 Python 模块
+    │   ├── pipeline.py  - 安排整个管道的脚本
     │   │
-    │   ├── data         - scripts to download or generate data
+    │   ├── data         - 下载或生成数据的脚本
     │   │   └── make_dataset.py
     │   │
-    │   ├── features     - scripts to turn raw data into features for modeling
+    │   ├── features     - 将原始数据转换为模型特征的脚本
     │   │   └── build_features.py
     │   │
-    │   └── model        - scripts to train models and make predictions
+    │   └── model        - 训练模型和进行预测的脚本
     │       ├── predict_model.py
     │       └── train_model.py
     │
     └── tests            - pytest
-
-## GCP
-Deploying inference service to Cloud Run
-
-### Authenticate
-
-1. Install `gcloud` cli
-2. `gcloud auth login`
-3. `gcloud config set project <PROJECT_ID>`
-
-### Enable APIs
-
-1. Cloud Run API
-2. Cloud Build API
-3. IAM API
-
-### Deploy to Cloud Run
-
-1. Run `gcp-deploy.sh`
-
-### Clean up
-
-1. Delete Cloud Run
-2. Delete Docker image in GCR
-
-## AWS
-Deploying inference service to AWS Lambda
-
-### Authenticate
-
-1. Install `awscli` and `sam-cli`
-2. `aws configure`
-
-### Deploy to Lambda
-
-1. Run `sam build`
-2. Run `sam deploy --guiChange this portion for other types of models
-## Add the correct type hinting when completed
-
-`aws cloudformation delete-stack --stack-name <STACK_NAME_ON_CREATION>`
-
-
-Made by https://github.com/arthurhenrique/cookiecutter-fastapi/graphs/contributors with ❤️
