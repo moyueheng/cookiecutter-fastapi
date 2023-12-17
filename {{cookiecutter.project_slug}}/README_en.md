@@ -23,8 +23,8 @@ To update your machine learning model, add your `load` and `method` [change here
 ## Installation
 
 ```sh
-conda create -n {{cookiecutter.project_name}} python=3.11
-conda activate {{cookiecutter.project_name}}
+conda create -n {{cookiecutter.project_slug}} -y python=3.11
+conda activate {{cookiecutter.project_slug}}
 pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 pip install poetry
 poetry config virtualenvs.create false 

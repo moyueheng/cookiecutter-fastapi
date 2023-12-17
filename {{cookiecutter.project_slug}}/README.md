@@ -1,4 +1,3 @@
-
 # {{cookiecutter.project_name}}
 
 {{cookiecutter.project_short_description}}
@@ -24,11 +23,11 @@ MODEL_NAME=model.pkl
 ## 安装
 
 ```sh
-conda create -n {{cookiecutter.project_name}} python=3.11
-conda activate {{cookiecutter.project_name}}
+conda create -n {{cookiecutter.project_slug}} -y  python=3.11
+conda activate {{cookiecutter.project_slug}}
 pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 pip install poetry
-poetry config virtualenvs.create false 
+poetry config virtualenvs.create false
 make install
 ```
 

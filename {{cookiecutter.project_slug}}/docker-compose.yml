@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    image: {{cookiecutter.project_slug}}:${IMAGE_TAG:-latest}"
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8080
     volumes:
       - ./app:/ctbu/{{cookiecutter.project_slug}}/app/

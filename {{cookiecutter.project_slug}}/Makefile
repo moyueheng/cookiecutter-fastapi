@@ -33,6 +33,7 @@ run:
 	PYTHONPATH=app/ poetry run uvicorn main:app --reload --host 0.0.0.0 --port 8080
 
 deploy: generate_dot_env
+	bash ./update_tag.sh
 	docker-compose build
 	docker-compose up -d
 

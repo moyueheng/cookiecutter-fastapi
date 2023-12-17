@@ -5,9 +5,15 @@ description = "{{cookiecutter.project_short_description}}"
 authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
 
 [[tool.poetry.source]]
-default = true
+priority = "default"
 name = "aliyun"
 url = "http://mirrors.aliyun.com/pypi/simple"
+
+[[tool.poetry.source]]
+priority = "primary"
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
